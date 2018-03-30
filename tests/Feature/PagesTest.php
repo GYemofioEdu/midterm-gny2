@@ -36,4 +36,10 @@ class PagesTest extends TestCase
         $response = $this->get(route('contact'));
         $response->assertStatus(200);
     }
+
+    public function testContactMsgDisplayPage()
+    {
+        $response = $this->get(route('display_contact_msg',['contact_msg' => 'routeTesting' ]));
+        $response->assertStatus(200);
+    }
 }
