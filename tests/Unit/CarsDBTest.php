@@ -46,4 +46,31 @@ class CarsDBTest extends TestCase
 
         $this->assertDatabaseHas('cars',['id'=>$tgtCarID, 'year'=>$tgtYear]);
     }
+
+    /**
+     * Goal: Delete the last car to have been inserted
+     * Use assertion but also echo a description of it for visual inspection
+     * Need to figure out how to work with collections
+     *
+     * @return void
+     */
+    public function testCarDelete()
+    {
+        $tgtCarID = DB::table('cars')->max('id');
+
+        /* Figure out how to use a record; like the one below:
+                 $tgtCar = DB::table('cars')->where('id',$tgtCarID)->get();
+            For now, fetch one primitive item at a time
+        */
+        $tgtCarYear = (string)(DB::table('cars')->where('id',$tgtCarID)->max('year'));
+        $tgtCarMake = DB::table('cars')->where('id',$tgtCarID)->max('make');
+        $tgtCarModel = DB::table('cars')->where('id',$tgtCarID)->max('model');
+        echo 'testCarDelete: target carID = '. (string)$tgtCarID
+            . '; Description = ' . $tgtCarYear . ' '
+            . $tgtCarMake . ' ' . $tgtCarModel . PHP_EOL;
+
+        DB::table('cars')->where('id',$tgtCarID)->delete();
+
+        $this->assertDatabaseMissing('cars',['id'=>$tgtCarID]);
+    }
 }
