@@ -22,6 +22,7 @@ $factory->define(/**
         } else {
             $fakedModel = $faker->randomElement(['Avalon','Camry','Highlander', 'Tundra']);
         }
+
     return [
         //
         'make' => $fakedMake,
