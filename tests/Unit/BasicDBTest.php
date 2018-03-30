@@ -20,5 +20,19 @@ class BasicDBTest extends TestCase
         $newUserID_isInDB = (DB::table('users')->where('id',$NewUser->id)->count())==1;
 
         $this->assertTrue($numUsersIncreased and $newUserID_isInDB);
+        DB::table('users')->where('id',$NewUser->id)->delete();
+    }
+
+    public function testUserUpdate()
+    {
+        $tgtName = 'Steve Smith';
+
+        $NewUser = factory(User::class)->create();
+        echo 'testUserUpdate: name before change = ' . $NewUser->name
+                . '; AND the target name = ' . $tgtName;
+        DB::table('users')->where('id',$NewUser->id)->update(['name'=>$tgtName]);
+
+        $this->assertDatabaseHas('users',['id'=>$NewUser->id, 'name'=>$tgtName]);
+        DB::table('users')->where('id',$NewUser->id)->delete();
     }
 }
