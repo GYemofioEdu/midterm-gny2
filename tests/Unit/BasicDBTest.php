@@ -28,11 +28,23 @@ class BasicDBTest extends TestCase
         $tgtName = 'Steve Smith';
 
         $NewUser = factory(User::class)->create();
-        echo 'testUserUpdate: name before change = ' . $NewUser->name
-                . '; AND the target name = ' . $tgtName;
+        echo PHP_EOL . 'testUserUpdate: name before change = ' . $NewUser->name
+                . '; AND the target name = ' . $tgtName . PHP_EOL;
         DB::table('users')->where('id',$NewUser->id)->update(['name'=>$tgtName]);
 
         $this->assertDatabaseHas('users',['id'=>$NewUser->id, 'name'=>$tgtName]);
         DB::table('users')->where('id',$NewUser->id)->delete();
+    }
+
+    public function testUserDelete()
+    {
+
+        $NewUser = factory(User::class)->create();
+        $insertConfirmed = (DB::table('users')->where('id',$NewUser->id)->count())==1;
+
+        DB::table('users')->where('id',$NewUser->id)->delete();
+        $deletionConfirmed = (DB::table('users')->where('id',$NewUser->id)->count())==0;
+
+        $this->assertTrue($insertConfirmed and $deletionConfirmed);
     }
 }
