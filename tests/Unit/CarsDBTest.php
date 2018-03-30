@@ -73,4 +73,15 @@ class CarsDBTest extends TestCase
 
         $this->assertDatabaseMissing('cars',['id'=>$tgtCarID]);
     }
+
+    public function testSeededCarsCount()
+    {   /* Required Preconditions:
+                1. Runs after Migrate Refresh/Reset, before changing the number of seeded records
+                2. All tests must leave the number of seeded records unchanged
+            Note: Yeah, not great.
+        */
+
+        $numCars = DB::table('cars')->count();
+        $this->assertTrue($numCars == 50);
+    }
 }
