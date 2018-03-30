@@ -30,4 +30,10 @@ class PagesTest extends TestCase
         $response = $this->get(route('about'));
         $response->assertStatus(200);
     }
+
+    public function testContactPage()
+    {
+        $response = $this->get(route('contact'));
+        $response->assertStatus(200);
+    }
 }
