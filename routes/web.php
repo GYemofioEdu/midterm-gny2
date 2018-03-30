@@ -19,5 +19,7 @@ Route::get('/contact', 'ContactPageController@contact')->name('contact');
 Route::post('/contact', 'ContactPageController@proc_contact_msg')->name('contact');
 Route::get('/contact/{contact_msg}', 'ContactPageController@display_contact_msg')->name('display_contact_msg');
 
+Route::get('/about', 'PagesController@about')->name('about');
+
 
 
