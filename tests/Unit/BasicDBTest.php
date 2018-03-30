@@ -38,7 +38,6 @@ class BasicDBTest extends TestCase
 
     public function testUserDelete()
     {
-
         $NewUser = factory(User::class)->create();
         $insertConfirmed = (DB::table('users')->where('id',$NewUser->id)->count())==1;
 
@@ -46,5 +45,18 @@ class BasicDBTest extends TestCase
         $deletionConfirmed = (DB::table('users')->where('id',$NewUser->id)->count())==0;
 
         $this->assertTrue($insertConfirmed and $deletionConfirmed);
+    }
+
+    public function testUserSeededCount()
+    {   /* Required Preconditions:
+                1. Run after Migrate Refresh/Reset, before making any changes to the DB
+                2. All tests must leave the number of users unchanged
+            Note: Sorry if I missed notes on how to do this the correct way.
+                  This approach is awful but I don't know how to call migration reset, and the seeder here
+                  Also do not know whether it's OK ot have unit testing reset the DB
+        */
+
+        $numUsers = DB::table('users')->count();
+        $this->assertTrue($numUsers == 50);
     }
 }
