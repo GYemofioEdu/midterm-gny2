@@ -21,7 +21,13 @@ class PagesTest extends TestCase
 
     public function testLoginPage()
     {
-        $response = $this->get('/login');
+        $response = $this->get(route('login') );
+        $response->assertStatus(200);
+    }
+
+    public function testAboutPage()
+    {
+        $response = $this->get(route('about'));
         $response->assertStatus(200);
     }
 }
