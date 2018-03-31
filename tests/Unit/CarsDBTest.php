@@ -110,4 +110,17 @@ class CarsDBTest extends TestCase
                                     ->count();
         $this->assertTrue($numCars > 0 and $numCarsNotInTargetSet == 0);
     }
+
+    /* This asserts that for all cars in the table, model is text/string (i.e. not numeric)
+     * NOTE: ORM returns strings for everything, including ID.
+     *
+    */
+    public function testCarModelIsString()
+    {
+        $numCars = DB::table('cars')->count();
+        $numCarsModelIsNotString = DB::table('cars')
+                                    ->whereraw('typeof(model) <> "text"')
+                                    ->count();
+        $this->assertTrue($numCars > 0 and $numCarsModelIsNotString == 0);
+    }
 }
