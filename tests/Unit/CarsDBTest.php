@@ -97,4 +97,17 @@ class CarsDBTest extends TestCase
         $numCarsWithIntYears = DB::table('cars')->whereraw('typeof(year) == "integer"')->count();
         $this->assertTrue($numCars == $numCarsWithIntYears);
     }
+
+    /* This asserts there is no car in the table with make not in the target set
+     * That is, every car in the table is either a ford, honda or toyota
+     *
+    */
+    public function testCarMakeInTargetSet()
+    {
+        $numCars = DB::table('cars')->count();
+        $numCarsNotInTargetSet = DB::table('cars')
+                                    ->whereraw('make not in ("Ford","Honda","Toyota")')
+                                    ->count();
+        $this->assertTrue($numCars > 0 and $numCarsNotInTargetSet == 0);
+    }
 }
