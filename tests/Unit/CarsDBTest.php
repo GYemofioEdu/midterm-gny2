@@ -84,4 +84,17 @@ class CarsDBTest extends TestCase
         $numCars = DB::table('cars')->count();
         $this->assertTrue($numCars == 50);
     }
+
+    /* This asserts that all cars have integers in the year field
+     * Ordinarily, however, the ORM returns a string, which can be cast to int.
+     *
+     *  I tried "DB::getSchemaBuilder()->getColumnType('cars', 'year')" but it did not work for me
+     *  I got: PHP Error:  Class 'Doctrine\DBAL\Driver\PDOSqlite\Driver' not found
+    */
+    public function testCarYearIsInt()
+    {
+        $numCars = DB::table('cars')->count();
+        $numCarsWithIntYears = DB::table('cars')->whereraw('typeof(year) == "integer"')->count();
+        $this->assertTrue($numCars == $numCarsWithIntYears);
+    }
 }
